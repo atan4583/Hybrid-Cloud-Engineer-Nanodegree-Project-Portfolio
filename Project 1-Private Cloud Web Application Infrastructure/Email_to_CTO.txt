@@ -1,0 +1,112 @@
+Dear CTO,
+
+In response to your request to create a test Hyperconverged solution for HCI evaluation, here is the task completion report for your review.  
+
+
+Summary of Stakholders Needs
+----------------------------
+- 3-tier application in production and developement    
+  - DB server built on Microsoft SQL (windows) image
+  - App Server built on Linux CentOS image
+  - Web Server built on Linux CentOS image
+
+- Network Configuration
+  - production (managed IPAM/DHCP)
+    - VLAN 0, with 172.31.0.0/24 subnet IP/Prefix.
+    - IP Pool from 172.31.0.210 to 172.31.0.230
+  - Develpment (unmanaged)
+    - VLAN 101, with  172.31.101.0/24 subnet IP/Prefix.
+
+- A Storage Container named Images to store base Windows and Linux images for use in VM creations
+  - upload Windows and Linux (CentOS) Images Images Stora Container from c:\Images
+
+- Six VMs with same hardware configuration:
+  - cpu: 1 vCPU
+  - RAM: 4 GB
+  - VM Names:
+    - db-prod, app-prod, web-prod
+    - db-dev, app-dev, web-dev
+
+- A Data Protection to protect production servers 
+  - a schedule to create one snapshot every 60 minutes. 
+  - test full restoration process
+  - test dynamic cloning to an online VM (e.g. add 1 vCPU and 2GB memory to the db server)
+
+
+Outline of Tasks Completed 
+---------------------------
+Task 1. 
+Configured an NTP server use the public service pool.ntp.org 
+
+Task 2. 
+Configured a DNS server with the Server IP set to 8.8.8.8 
+
+
+Task 3. Managed virtual network using IPAM/DHCP protocol 
+3.1 Added a managed production network named as 'production-net'
+3.2 Set IP Pool address range 172.31.0.210 to 172.31.0.230
+3.3 Set VLan ID to 0 and Subnet IP/Prefix 172.31.0.0/24 
+
+
+Task 4. Unmanaged virtual network 
+4.1 Added an unmanaged development network named 'development-net'
+4.2 set Vlan ID to 101
+4.3 The subnet IP/Prefix 172.31.101.0/24 is not required on an unmanaged Network and not used
+
+
+Task 5. Storage container for Windows and Linux virtual disk images 
+5.1 Added a storage container named 'Images'. 
+5.2 Uploaded a Windows and CentOS virtual (qcow2) disk images (from C:\Images on the Project Workspace) to Images container.
+
+Task 6. Deploy Windows and Linux VMs (Virtual Machines) to the HCI cluster 
+6.1  Added a DB, APP and Web servers, set the Network Adapter (NIC) to 'production-net' network 
+6.2  Set all 3 VMs to use 1 vCPU and 4GB RAM  
+6.3  Named the DB server 'db-prod', built Window image (Microsoft SQL on Windows)
+6.4  Named the APP 'app-prod', built on Linux image (CentOS) image
+6.5  Named the Web server 'web-prod' , built on Linux image (CentOS) image
+6.6  Powered on the 3 VMs
+
+
+Task 7. Create VM clones of the Production VMs and change configurations 
+7.1  cloned the DB, APP and Web servers from correspond VM servers in production  
+7.2  Changed the VM names to db-dev, app-dev and web-dev respectively. 
+7.3. Set the Network Adapter (NIC) to 'development-net' network 
+  
+
+Task 8. Data protection and automation of VM snapshot creation 
+8.1 Added a data protection domain named 'Production_PD'  
+8.2 Added the 3 VMs from production as the protected entities
+8.3 Create a replicaton schedule to run every 60 minutes to create a snapshot containing the 3 protected VMs 
+
+
+Task 9. Perform VM restoration using the data protection snapshots
+9.1 Checked a snapshot was created by the data protection schedule 
+9.2 Removed the 'app-prod' VM
+9.3 Set PD restore entity to 'app-prod', restored as a new entity 
+9.2 Verified a new app VM was restore under the name 'Nutanix-Clone-app-prod'
+
+
+Task 10. Dynamically add CPU/Memory resources to online VMs
+Added 1 vCPU and 2GB RAM to db-prod online, the changes applied appeared on the VM Table dashboard.
+
+
+Conclusion
+----------    
+All the listed tasks were completed successful and all stateholders needs were met. The infrastructure on the HCI cluster is now ready for conducting evaluations and demo to the CEO tomorrow. Please let me know if you have further questions on the subject.
+
+Respectfully,
+Audrey Tan
+
+
+Enclosure: 
+- HCI Cluster Configuration: Audrey_Tan-HybridCloud-Nutanix_Cluster_as_Built_2020-10-30_120406.xlsx
+
+
+
+
+
+
+
+
+
+
